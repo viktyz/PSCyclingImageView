@@ -15,9 +15,14 @@
     PSCyclingImageViewDataSource
 >
 {
-    PSCyclingImageView *pssImagesView;
+    PSCyclingImageView *cyclingImageView1;
 }
 
+@property (weak, nonatomic) IBOutlet PSCyclingImageView *cyclingImageView0;
+@property (weak, nonatomic) IBOutlet PSCyclingImageView *cyclingImageView2;
+@property (weak, nonatomic) IBOutlet PSCyclingImageView *cyclingImageView3;
+
+@property (weak, nonatomic) IBOutlet UIView *viewCyclingImagePanel;
 @property (nonatomic, strong) NSMutableArray *placeholderImages;
 @property (nonatomic, strong) NSMutableArray *images;
 
@@ -25,20 +30,13 @@
 
 @implementation ViewController
 
-- (void)dealloc
-{
-    pssImagesView.delegate = nil;
-    pssImagesView.dataSource = nil;
+- (void)dealloc {
+    cyclingImageView1.delegate = nil;
+    cyclingImageView1.dataSource = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    pssImagesView = [[PSCyclingImageView alloc] init];
-    pssImagesView.delegate = self;
-    pssImagesView.dataSource = self;
-    [self.view addSubview:pssImagesView];
-    pssImagesView.frame = self.view.bounds;
 
     _placeholderImages = [NSMutableArray arrayWithArray:@[
                               [UIImage imageNamed:@"001.jpg"],
@@ -69,10 +67,32 @@
                    @"http://img3.3lian.com/2013/s1/18/d/79.jpg",
                    @"xxxxxx",
                ]];
+}
+
+- (IBAction)clickRandomBtn:(UIButton *)sender {
+    [_cyclingImageView3 scrollToIndex:(random()%[_images count]) animated:YES];
+}
+
+- (void)viewDidLayoutSubviews {
+    _cyclingImageView0.tag = 0;
+    [_cyclingImageView0 reloadData];
 
 
 
-    [pssImagesView reloadData];
+    cyclingImageView1 = [[PSCyclingImageView alloc] initWithFrame:_viewCyclingImagePanel.bounds];
+    cyclingImageView1.tag = 1;
+    cyclingImageView1.delegate = self;
+    cyclingImageView1.dataSource = self;
+    [self.viewCyclingImagePanel addSubview:cyclingImageView1];
+
+    [cyclingImageView1 reloadData];
+
+
+    _cyclingImageView2.tag = 2;
+    [_cyclingImageView2 reloadData];
+    
+    _cyclingImageView3.tag = 3;
+    [_cyclingImageView3 reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,11 +103,11 @@
 #pragma mark - PSCyclingImageViewDelegate
 
 - (void)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView didSelectImageAtIndex:(NSInteger)index {
-    NSLog(@"didSelectImageAtIndex : %ld", (long)index);
+    NSLog(@"cyclingImageView : %ld, didSelectImageAtIndex : %ld",cyclingImageView.tag,(long)index);
 }
 
 - (void)cyclingImageView:(PSCyclingImageView *)cyclingImageView didScrollToIndex:(NSInteger)index {
-    NSLog(@"didScrollToIndex : %ld", (long)index);
+    NSLog(@"cyclingImageView : %ld, didScrollToIndex : %ld",cyclingImageView.tag,(long)index);
 }
 
 #pragma makr - PSCyclingImageViewDataSource
@@ -96,7 +116,7 @@
     return [_images count];
 }
 
-- (nullable NSString *)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView imagePathForViewAtIndex:(NSInteger)index {
+- (nullable NSString *)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView urlForImageAtIndex:(NSInteger)index {
     return [_images objectAtIndex:index];
 }
 
@@ -104,7 +124,7 @@
     UIPageControl *pageControl = [[UIPageControl alloc] init];
 
     pageControl = [[UIPageControl alloc] init];
-    pageControl.center = CGPointMake(cyclingImageView.frame.size.width / 2, cyclingImageView.frame.size.height - 100);
+    pageControl.center = CGPointMake(cyclingImageView.frame.size.width / 2, cyclingImageView.frame.size.height - 5);
     pageControl.pageIndicatorTintColor = [UIColor colorWithRed:193 / 255.0 green:219 / 255.0 blue:249 / 255.0 alpha:1];
     pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:0 green:150 / 255.0 blue:1 alpha:1];
     return pageControl;
@@ -115,8 +135,15 @@
 }
 
 - (CGFloat)timeIntervalForCyclingImageView:(PSCyclingImageView *)cyclingImageView {
-    return 5.0;
-//    return 0;
+    if (cyclingImageView.tag == 0) {
+        return 5.0;
+    } else if (cyclingImageView.tag == 1) {
+        return 3.0;
+    } else if (cyclingImageView.tag == 2) {
+        return 7.0;
+    } else {
+        return 0;
+    }
 }
 
 @end

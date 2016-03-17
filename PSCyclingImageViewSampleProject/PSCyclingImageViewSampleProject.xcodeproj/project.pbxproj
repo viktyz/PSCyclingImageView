@@ -20,6 +20,7 @@
 		064314891C993A7600E0E97A /* 010.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0643147D1C993A7600E0E97A /* 010.jpg */; };
 		0643148A1C993A7600E0E97A /* 011.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0643147E1C993A7600E0E97A /* 011.jpg */; };
 		0643148B1C993A7600E0E97A /* 012.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0643147F1C993A7600E0E97A /* 012.jpg */; };
+		064F3CA71C9AD9440053D620 /* PSCyclingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 064F3CA61C9AD9440053D620 /* PSCyclingManager.m */; };
 		069E76E01C984489009429A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 069E76DF1C984489009429A1 /* main.m */; };
 		069E76E31C984489009429A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 069E76E21C984489009429A1 /* AppDelegate.m */; };
 		069E76E61C984489009429A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069E76E51C984489009429A1 /* ViewController.m */; };
@@ -43,6 +44,8 @@
 		0643147D1C993A7600E0E97A /* 010.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 010.jpg; sourceTree = "<group>"; };
 		0643147E1C993A7600E0E97A /* 011.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 011.jpg; sourceTree = "<group>"; };
 		0643147F1C993A7600E0E97A /* 012.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 012.jpg; sourceTree = "<group>"; };
+		064F3CA51C9AD9440053D620 /* PSCyclingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCyclingManager.h; sourceTree = "<group>"; };
+		064F3CA61C9AD9440053D620 /* PSCyclingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCyclingManager.m; sourceTree = "<group>"; };
 		069E76DB1C984489009429A1 /* PSCyclingImageViewSampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PSCyclingImageViewSampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		069E76DF1C984489009429A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		069E76E11C984489009429A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -69,6 +72,8 @@
 		064314631C98F2B000E0E97A /* PSCyclingImageView */ = {
 			isa = PBXGroup;
 			children = (
+				064F3CA51C9AD9440053D620 /* PSCyclingManager.h */,
+				064F3CA61C9AD9440053D620 /* PSCyclingManager.m */,
 				064314641C98F2B000E0E97A /* PSCyclingImageView.h */,
 				064314651C98F2B000E0E97A /* PSCyclingImageView.m */,
 			);
@@ -223,6 +228,7 @@
 				069E76E61C984489009429A1 /* ViewController.m in Sources */,
 				064314661C98F2B000E0E97A /* PSCyclingImageView.m in Sources */,
 				069E76E31C984489009429A1 /* AppDelegate.m in Sources */,
+				064F3CA71C9AD9440053D620 /* PSCyclingManager.m in Sources */,
 				069E76E01C984489009429A1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

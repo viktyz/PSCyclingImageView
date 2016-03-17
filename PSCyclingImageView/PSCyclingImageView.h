@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class PSCyclingImageView;
+
 @protocol PSCyclingImageViewDelegate;
 @protocol PSCyclingImageViewDataSource;
 
 @interface PSCyclingImageView : UIView
 
-@property (nonatomic, weak, nullable) id <PSCyclingImageViewDataSource> dataSource;
-@property (nonatomic, weak, nullable) id <PSCyclingImageViewDelegate> delegate;
+@property (nonatomic, weak, nullable) IBOutlet id <PSCyclingImageViewDataSource> dataSource;
+@property (nonatomic, weak, nullable) IBOutlet id <PSCyclingImageViewDelegate> delegate;
+@property (nonatomic, assign, readonly) NSInteger currentImageIndex;
 
 - (void)reloadData;
+- (void)celarCache;
+- (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated;
 
 @end
 
@@ -38,7 +43,7 @@
 
 - (NSInteger)numberOfImagesInCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
 
-- (nullable NSString *)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView imagePathForViewAtIndex:(NSInteger)index;
+- (nullable NSString *)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView urlForImageAtIndex:(NSInteger)index;
 
 @optional
 
