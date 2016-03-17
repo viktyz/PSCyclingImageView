@@ -25,6 +25,12 @@
 
 @implementation ViewController
 
+- (void)dealloc
+{
+    pssImagesView.delegate = nil;
+    pssImagesView.dataSource = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
