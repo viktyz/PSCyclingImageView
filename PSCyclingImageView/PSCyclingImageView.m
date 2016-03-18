@@ -33,7 +33,7 @@ UIScrollViewDelegate
     NSInteger imageCount;
     CGSize imageSize;
     CGFloat timeInterval;
-    
+    PSCyclingDirection direction;
     UIProgressView *progressView;
     
     struct {
@@ -43,6 +43,7 @@ UIScrollViewDelegate
         unsigned int pageControlInCyclingImageView : 1;
         unsigned int placeholderImageForViewAtIndex : 1;
         unsigned int timeIntervalForCyclingImageView : 1;
+        unsigned int directionForCyclingImageView : 1;
     } checkFlags;
 }
 
@@ -75,6 +76,8 @@ UIScrollViewDelegate
     checkFlags.placeholderImageForViewAtIndex = [dataSource respondsToSelector:@selector(cyclingImageView:placeholderImageForViewAtIndex:)];
     
     checkFlags.timeIntervalForCyclingImageView = [dataSource respondsToSelector:@selector(timeIntervalForCyclingImageView:)];
+    
+    checkFlags.directionForCyclingImageView = [dataSource respondsToSelector:@selector(directionForCyclingImageView:)];
 }
 
 #pragma mark - Public Method
@@ -126,7 +129,8 @@ UIScrollViewDelegate
     rightImageView.image = nil;
     _currentImageIndex = index;
     CGPoint currentPoint = bgScrollView.contentOffset;
-    [bgScrollView setContentOffset:CGPointMake(currentPoint.x + imageSize.width, 0) animated:animated];
+    
+    [bgScrollView setContentOffset:CGPointMake(currentPoint.x + ((direction == PSCyclingDirection_Right) ? (-imageSize.width) : (imageSize.width)), 0) animated:animated];
 }
 
 #pragma mark - Private Method
@@ -138,6 +142,10 @@ UIScrollViewDelegate
     
     if (checkFlags.timeIntervalForCyclingImageView) {
         timeInterval = [_dataSource timeIntervalForCyclingImageView:self];
+    }
+    
+    if (checkFlags.directionForCyclingImageView) {
+        direction = [_dataSource directionForCyclingImageView:self];
     }
 }
 
@@ -265,7 +273,7 @@ UIScrollViewDelegate
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(p_scrollCyclingView) object:nil];
     CGPoint currentPoint = bgScrollView.contentOffset;
-    [bgScrollView setContentOffset:CGPointMake(currentPoint.x + imageSize.width, 0) animated:YES];
+    [bgScrollView setContentOffset:CGPointMake(currentPoint.x + ((direction == PSCyclingDirection_Right) ? (-imageSize.width) : (imageSize.width)), 0) animated:YES];
     [self performSelector:_cmd withObject:nil afterDelay:timeInterval];
 }
 

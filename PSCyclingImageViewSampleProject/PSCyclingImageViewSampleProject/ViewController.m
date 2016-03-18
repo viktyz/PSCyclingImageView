@@ -142,9 +142,18 @@
     } else if (cyclingImageView.tag == 1) {
         return 2.0;
     } else if (cyclingImageView.tag == 2) {
-        return 3.0;
+        return 0.5;
     } else {
         return 0;
+    }
+}
+
+- (PSCyclingDirection)directionForCyclingImageView:(PSCyclingImageView *)cyclingImageView
+{
+    if (cyclingImageView.tag == 2) {
+        return PSCyclingDirection_Left;
+    } else {
+        return PSCyclingDirection_Right;
     }
 }
 

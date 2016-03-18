@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger,PSCyclingDirection) {
+    PSCyclingDirection_Left = 0,
+    PSCyclingDirection_Right
+};
+
 @class PSCyclingImageView;
 
 @protocol PSCyclingImageViewDelegate;
@@ -52,5 +57,7 @@
 - (nullable UIPageControl *)pageControlInCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
 
 - (NSTimeInterval)timeIntervalForCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
+
+- (PSCyclingDirection)directionForCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
 
 @end
