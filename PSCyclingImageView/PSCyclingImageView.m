@@ -122,7 +122,8 @@ UIScrollViewDelegate
 }
 
 - (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated {
-    //TODO::
+    leftImageView.image = nil;
+    rightImageView.image = nil;
     _currentImageIndex = index;
     CGPoint currentPoint = bgScrollView.contentOffset;
     [bgScrollView setContentOffset:CGPointMake(currentPoint.x + imageSize.width, 0) animated:animated];
@@ -200,7 +201,7 @@ UIScrollViewDelegate
 - (UIImageView *)p_addImageViewWithFrame:(CGRect)frame {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
     [bgScrollView addSubview:imageView];
-    
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     return imageView;
 }
 
@@ -299,18 +300,18 @@ UIScrollViewDelegate
             imageView.image = image;
         }
         
-        PSCOperation *operation = [[PSCOperation alloc] initWithTarget:self
-                                                              selector:@selector(threadOperationInfo:)
+        PSCOperation *fetchOperation = [[PSCOperation alloc] initWithTarget:self
+                                                              selector:@selector(threadOperationUrlInfo:)
                                                                 object:@{
                                                                          @"url" : url,
                                                                          @"imageView" : imageView
                                                                          }];
-        operation.tag = imageView.tag;
-        [[PSCyclingManager sharedInstance] addOperation:operation];
+        fetchOperation.tag = imageView.tag;
+        [[PSCyclingManager sharedInstance] addOperation:fetchOperation];
     }
 }
 
-- (void)threadOperationInfo:(NSDictionary *)userInfo{
+- (void)threadOperationUrlInfo:(NSDictionary *)userInfo{
     
     NSURL *url = userInfo[@"url"];
     UIImageView *imageView = userInfo[@"imageView"];

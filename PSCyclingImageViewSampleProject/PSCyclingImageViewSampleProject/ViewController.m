@@ -78,12 +78,14 @@
     [_cyclingImageView0 reloadData];
 
 
+    if (cyclingImageView1.superview != _viewCyclingImagePanel) {
+        cyclingImageView1 = [[PSCyclingImageView alloc] initWithFrame:_viewCyclingImagePanel.bounds];
+        cyclingImageView1.tag = 1;
+        cyclingImageView1.delegate = self;
+        cyclingImageView1.dataSource = self;
+        [self.viewCyclingImagePanel addSubview:cyclingImageView1];
+    }
 
-    cyclingImageView1 = [[PSCyclingImageView alloc] initWithFrame:_viewCyclingImagePanel.bounds];
-    cyclingImageView1.tag = 1;
-    cyclingImageView1.delegate = self;
-    cyclingImageView1.dataSource = self;
-    [self.viewCyclingImagePanel addSubview:cyclingImageView1];
 
     [cyclingImageView1 reloadData];
 
