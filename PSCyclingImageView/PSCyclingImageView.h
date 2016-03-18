@@ -52,12 +52,14 @@ typedef NS_ENUM(NSInteger,PSCyclingDirection) {
 
 @optional
 
+- (NSTimeInterval)timeIntervalForCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
+
 - (nullable UIImage *)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView placeholderImageForViewAtIndex:(NSInteger)index;
 
 - (nullable UIPageControl *)pageControlInCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
 
-- (NSTimeInterval)timeIntervalForCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
-
 - (PSCyclingDirection)directionForCyclingImageView:(nullable PSCyclingImageView *)cyclingImageView;
+
+- (UIViewContentMode)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView contentModeForViewAtIndex:(NSInteger)index;
 
 @end

@@ -44,6 +44,7 @@ UIScrollViewDelegate
         unsigned int placeholderImageForViewAtIndex : 1;
         unsigned int timeIntervalForCyclingImageView : 1;
         unsigned int directionForCyclingImageView : 1;
+        unsigned int contentModeForViewAtIndex : 1;
     } checkFlags;
 }
 
@@ -78,6 +79,8 @@ UIScrollViewDelegate
     checkFlags.timeIntervalForCyclingImageView = [dataSource respondsToSelector:@selector(timeIntervalForCyclingImageView:)];
     
     checkFlags.directionForCyclingImageView = [dataSource respondsToSelector:@selector(directionForCyclingImageView:)];
+    
+    checkFlags.contentModeForViewAtIndex = [dataSource respondsToSelector:@selector(cyclingImageView:contentModeForViewAtIndex:)];
 }
 
 #pragma mark - Public Method
@@ -292,6 +295,10 @@ UIScrollViewDelegate
 - (void)fetchDataWithURL:(NSURL *)url forImageView:(UIImageView *)imageView withIndex:(NSInteger)index {
     
     imageView.image = nil;
+    
+    if (checkFlags.contentModeForViewAtIndex) {
+        imageView.contentMode = [_dataSource cyclingImageView:self contentModeForViewAtIndex:index];
+    }
     
     NSCache *cache = [[PSCyclingManager sharedInstance] cache];
     

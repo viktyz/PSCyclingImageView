@@ -74,6 +74,7 @@
 }
 
 - (void)viewDidLayoutSubviews {
+    
     _cyclingImageView0.tag = 0;
     [_cyclingImageView0 reloadData];
 
@@ -154,6 +155,19 @@
         return PSCyclingDirection_Left;
     } else {
         return PSCyclingDirection_Right;
+    }
+}
+
+- (UIViewContentMode)cyclingImageView:(nullable PSCyclingImageView *)cyclingImageView contentModeForViewAtIndex:(NSInteger)index
+{
+    if (cyclingImageView.tag == 0) {
+        return UIViewContentModeScaleAspectFit;
+    } else if (cyclingImageView.tag == 1) {
+        return UIViewContentModeScaleToFill;
+    } else if (cyclingImageView.tag == 2) {
+        return UIViewContentModeScaleAspectFill;
+    } else {
+        return UIViewContentModeCenter;
     }
 }
 
