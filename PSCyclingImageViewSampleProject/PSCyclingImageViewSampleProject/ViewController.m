@@ -109,7 +109,7 @@
 }
 
 - (void)cyclingImageView:(PSCyclingImageView *)cyclingImageView didScrollToIndex:(NSInteger)index {
-    NSLog(@"cyclingImageView : %ld, didScrollToIndex : %ld",cyclingImageView.tag,(long)index);
+    NSLog(@"cyclingImageView : %ld, didScrollToIndex : %ld",(long)cyclingImageView.tag,(long)index);
 }
 
 #pragma makr - PSCyclingImageViewDataSource
@@ -136,7 +136,7 @@
     return [_placeholderImages objectAtIndex:index];
 }
 
-- (CGFloat)timeIntervalForCyclingImageView:(PSCyclingImageView *)cyclingImageView {
+- (NSTimeInterval)timeIntervalForCyclingImageView:(PSCyclingImageView *)cyclingImageView {
     if (cyclingImageView.tag == 0) {
         return 1.0;
     } else if (cyclingImageView.tag == 1) {

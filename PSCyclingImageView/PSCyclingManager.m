@@ -43,7 +43,7 @@
 {
     [_queue.operations enumerateObjectsUsingBlock:^(PSCOperation *tOperation, NSUInteger idx, BOOL * _Nonnull stop) {
         if (tOperation.tag == operation.tag) {
-            NSLog(@"Tag With %ld has been canceled",tOperation.tag);
+            NSLog(@"Tag With %ld has been canceled",(long)tOperation.tag);
             [tOperation cancel];
             *stop = YES;
         }
