@@ -7,6 +7,15 @@
 //
 
 #import "PSCyclingManager.h"
+#import "PSCOperation.h"
+
+
+
+@implementation PSCOperation
+
+@end
+
+
 
 @implementation PSCyclingManager
 
@@ -29,6 +38,19 @@
 - (void)cancelQueue
 {
     [_queue cancelAllOperations];
+}
+
+- (void)addOperation:(PSCOperation *)operation
+{
+    [_queue.operations enumerateObjectsUsingBlock:^(PSCOperation *tOperation, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (tOperation.tag == operation.tag) {
+            NSLog(@"Tag With %ld has been canceled",tOperation.tag);
+            [tOperation cancel];
+            *stop = YES;
+        }
+    }];
+    
+    [_queue addOperation:operation];
 }
 
 @end

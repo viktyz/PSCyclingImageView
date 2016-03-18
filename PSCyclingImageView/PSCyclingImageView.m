@@ -13,6 +13,13 @@
 #define MULTI_IMAGES     3
 #define MIN_TIMEINTERVAL 0.1
 
+
+typedef NS_ENUM(NSInteger,PSImageViewTag) {
+    PSImageViewTag_Left = 0,
+    PSImageViewTag_Center,
+    PSImageViewTag_Right
+};
+
 @interface PSCyclingImageView ()
 <
 UIScrollViewDelegate
@@ -177,13 +184,17 @@ UIScrollViewDelegate
     [[bgScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     leftImageView = [self p_addImageViewWithFrame:CGRectMake(0, 0, imageSize.width, imageSize.height)];
+    leftImageView.tag = PSImageViewTag_Left;
     
     if (imageCount == SINGEL_IMAGE) {
         return;
     }
     
     centerImageView = [self p_addImageViewWithFrame:CGRectMake(imageSize.width, 0, imageSize.width, imageSize.height)];
+    centerImageView.tag = PSImageViewTag_Center;
+    
     rightImageView  = [self p_addImageViewWithFrame:CGRectMake(2 * imageSize.width, 0, imageSize.width, imageSize.height)];
+    rightImageView.tag = PSImageViewTag_Right;
 }
 
 - (UIImageView *)p_addImageViewWithFrame:(CGRect)frame {
@@ -252,10 +263,8 @@ UIScrollViewDelegate
 - (void)p_scrollCyclingView {
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(p_scrollCyclingView) object:nil];
-    
     CGPoint currentPoint = bgScrollView.contentOffset;
     [bgScrollView setContentOffset:CGPointMake(currentPoint.x + imageSize.width, 0) animated:YES];
-    
     [self performSelector:_cmd withObject:nil afterDelay:timeInterval];
 }
 
@@ -276,7 +285,6 @@ UIScrollViewDelegate
     imageView.image = nil;
     
     NSCache *cache = [[PSCyclingManager sharedInstance] cache];
-    NSOperationQueue *queue = [[PSCyclingManager sharedInstance] queue];
     
     NSPurgeableData *cachedData = [cache objectForKey:url];
     
@@ -291,26 +299,41 @@ UIScrollViewDelegate
             imageView.image = image;
         }
         
-        [queue addOperationWithBlock:^{
-            NSData *data = [NSData dataWithContentsOfURL:url];
-            
-            if (!data) {
-                return;
-            }
-            
-            NSPurgeableData *purgeableData = [NSPurgeableData dataWithData:data];
-            [cache        setObject:purgeableData
-                             forKey:url
-                               cost:purgeableData.length];
-            
-            UIImage *image = [UIImage imageWithData:data];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                imageView.image = image;
-                [purgeableData endContentAccess];
-            });
-        }];
+        PSCOperation *operation = [[PSCOperation alloc] initWithTarget:self
+                                                              selector:@selector(threadOperationInfo:)
+                                                                object:@{
+                                                                         @"url" : url,
+                                                                         @"imageView" : imageView
+                                                                         }];
+        operation.tag = imageView.tag;
+        [[PSCyclingManager sharedInstance] addOperation:operation];
     }
+}
+
+- (void)threadOperationInfo:(NSDictionary *)userInfo{
+    
+    NSURL *url = userInfo[@"url"];
+    UIImageView *imageView = userInfo[@"imageView"];
+    
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    
+    if (!data) {
+        return;
+    }
+    
+    NSCache *cache = [[PSCyclingManager sharedInstance] cache];
+    
+    NSPurgeableData *purgeableData = [NSPurgeableData dataWithData:data];
+    [cache        setObject:purgeableData
+                     forKey:url
+                       cost:purgeableData.length];
+    
+    UIImage *image = [UIImage imageWithData:data];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        imageView.image = image;
+        [purgeableData endContentAccess];
+    });
 }
 
 @end

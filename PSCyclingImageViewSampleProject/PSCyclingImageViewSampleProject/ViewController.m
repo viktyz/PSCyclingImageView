@@ -136,11 +136,11 @@
 
 - (CGFloat)timeIntervalForCyclingImageView:(PSCyclingImageView *)cyclingImageView {
     if (cyclingImageView.tag == 0) {
-        return 5.0;
+        return 1.0;
     } else if (cyclingImageView.tag == 1) {
-        return 3.0;
+        return 2.0;
     } else if (cyclingImageView.tag == 2) {
-        return 7.0;
+        return 3.0;
     } else {
         return 0;
     }

@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+
+
+@interface PSCOperation : NSInvocationOperation
+
+@property (nonatomic,assign) NSInteger tag;
+
+@end
+
+
+
 @interface PSCyclingManager : NSObject
 
 @property (nonatomic, strong) NSOperationQueue *queue;
@@ -17,5 +27,7 @@
 
 - (void)clearCache;
 - (void)cancelQueue;
+
+- (void)addOperation:(PSCOperation *)operation;
 
 @end
