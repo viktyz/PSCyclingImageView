@@ -276,11 +276,25 @@ UIScrollViewDelegate
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(p_scrollCyclingView) object:nil];
     CGPoint currentPoint = bgScrollView.contentOffset;
+    
     [bgScrollView setContentOffset:CGPointMake(currentPoint.x + ((direction == PSCyclingDirection_Right) ? (-imageSize.width) : (imageSize.width)), 0) animated:YES];
-    [self performSelector:_cmd withObject:nil afterDelay:timeInterval];
+    
+    [self performSelector:_cmd withObject:nil afterDelay:timeInterval inModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - UIScrollView Delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(p_scrollCyclingView) object:nil];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (timeInterval > MIN_TIMEINTERVAL && imageCount > SINGEL_IMAGE) {
+        [self performSelector:@selector(p_scrollCyclingView) withObject:nil afterDelay:timeInterval];
+    }
+}
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     [self p_operationScrollView];
